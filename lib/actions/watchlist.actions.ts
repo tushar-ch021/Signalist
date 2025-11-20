@@ -43,6 +43,7 @@ export async function removeSymbolFromWatchlist(email: string, symbol: string) {
     const mongoose = await connectToDatabase();
     const db = mongoose.connection.db;
     if (!db) throw new Error('MongoDB connection not found');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await db.collection('watchlists').updateOne({ email }, { $pull: { symbols: symbol as any } });
     return { success: true };
   } catch (err) {
