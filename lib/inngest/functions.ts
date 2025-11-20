@@ -29,7 +29,8 @@ type MarketNewsArticle = {
 export const sendSignUpEmail = inngest.createFunction(
     { id: "send-signup-email" },
     [{ event: "app/user.created" }],
-    async ({ event, step }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async ({ event, step }: { event: { data: UserData }; step: any }) => {
         try {
             const user = event.data || {};
             const userProfile = `- Country: ${user.country || ""}\n- Investment Goals: ${user.investmentGoals || ""}\n- Risk Tolerance: ${user.riskTolerance || ""}\n- Preferred Industry: ${user.preferredIndustry || ""}`;
@@ -110,7 +111,8 @@ export const sendSignUpEmail = inngest.createFunction(
 export const sendDailyNewsSummary = inngest.createFunction(
     { id: "daily-news-summary" },
     [{ event: "app/send.daily.news" }, { cron: "0 12 * * *" }],
-    async ({ step }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async ({ step }: { step: any }) => {
         try {
             const users = await step.run("get-all-users", getAllUsersForNewsEmail);
             if (!users || users.length === 0) return { success: false, message: "No user found for news email" };

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const WatchlistPage = () => {
   const [email, setEmail] = useState('');
@@ -8,21 +8,20 @@ const WatchlistPage = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const fetchWatchlist = async (emailToFetch?: string) => {
-    const e = emailToFetch ?? email;
-    if (!e) return;
+  const fetchWatchlist = useCallback(async (emailToFetch: string) => {
+    if (!emailToFetch) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/watchlist?email=${encodeURIComponent(e)}`);
+      const res = await fetch(`/api/watchlist?email=${encodeURIComponent(emailToFetch)}`);
       const json = await res.json();
       if (json.success) setSymbols(json.symbols || []);
       else setMessage(json.message || 'Failed to load watchlist');
-    } catch (err) {
+    } catch {
       setMessage('Failed to load watchlist');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     // try load email from localStorage as a convenience
@@ -40,9 +39,9 @@ const WatchlistPage = () => {
           setSymbols((s) => Array.from(new Set([...s, ...pending])));
           setMessage(`You have ${pending.length} pending symbol(s). Set your email and click Load to save them.`);
         }
-      } catch (_) {}
+      } catch {}
     }
-  }, []);
+  }, [fetchWatchlist]);
 
   const handleAdd = async () => {
     if (!symbol) return setMessage('Please provide a symbol');
@@ -65,7 +64,7 @@ const WatchlistPage = () => {
       } else {
         setMessage(json.message || 'Failed to add');
       }
-    } catch (e) {
+    } catch {
       setMessage('Failed to add symbol');
     } finally {
       setLoading(false);
@@ -89,7 +88,7 @@ const WatchlistPage = () => {
       } else {
         setMessage(json.message || 'Failed to remove');
       }
-    } catch (e) {
+    } catch {
       setMessage('Failed to remove symbol');
     } finally {
       setLoading(false);

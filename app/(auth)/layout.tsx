@@ -1,7 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { Toaster } from "@/components/ui/sonner"
 import { auth } from "@/lib/better-auth/auth"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"

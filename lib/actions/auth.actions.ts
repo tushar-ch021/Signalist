@@ -1,6 +1,5 @@
 'use server';
 
-import { success } from "better-auth";
 import { auth } from "../better-auth/auth";
 import { inngest } from "../inngest/client";
 import { headers } from "next/headers";
@@ -68,7 +67,7 @@ export const signOut = async () => {
         await auth.api.signOut({
             headers: await headers()
         })
-    } catch (e) {
+    } catch {
         console.log('signout failed')
         return { success: false }
     }

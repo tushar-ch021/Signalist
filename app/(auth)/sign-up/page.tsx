@@ -8,7 +8,7 @@ import { signUpWithEmail } from '@/lib/actions/auth.actions';
 import { INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS } from '@/lib/constants';
 import { useRouter } from 'next/navigation';
 import React from 'react'
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from 'sonner';
 
 const SignUp = () => {
