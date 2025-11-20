@@ -1,3 +1,5 @@
+import { Control, FieldError, UseFormRegister, RegisterOptions } from 'react-hook-form';
+
 declare global {
     type SignInFormData = {
         email: string;
@@ -17,7 +19,7 @@ declare global {
     type CountrySelectProps = {
         name: string;
         label: string;
-        control: Control;
+        control: Control<SignUpFormData>;
         error?: FieldError;
         required?: boolean;
     };
@@ -27,7 +29,7 @@ declare global {
         label: string;
         placeholder: string;
         type?: string;
-        register: UseFormRegister;
+        register: UseFormRegister<SignUpFormData | SignInFormData>;
         error?: FieldError;
         validation?: RegisterOptions;
         disabled?: boolean;
@@ -44,7 +46,7 @@ declare global {
         label: string;
         placeholder: string;
         options: readonly Option[];
-        control: Control;
+        control: Control<SignUpFormData>;
         error?: FieldError;
         required?: boolean;
     };
@@ -166,15 +168,6 @@ declare global {
 
     type WatchlistNewsProps = {
         news?: MarketNewsArticle[];
-    };
-
-    type SearchCommandProps = {
-        open?: boolean;
-        setOpen?: (open: boolean) => void;
-        renderAs?: 'button' | 'text';
-        buttonLabel?: string;
-        buttonVariant?: 'primary' | 'secondary';
-        className?: string;
     };
 
     type AlertData = {
