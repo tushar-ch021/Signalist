@@ -36,9 +36,9 @@ export const signUpWithEmail = async ({ email, password, fullName, country, inve
         const msg = 'Empty response from auth.api.signUpEmail';
         console.error('signUpWithEmail:', msg, { email, fullName });
         throw new Error(msg);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('signUpWithEmail: exception', error);
-        const msg = error?.body?.message || error?.message || '';
+        const msg = (error as { body?: { message?: string }; message?: string })?.body?.message || (error as { message?: string })?.message || '';
         if (msg.toLowerCase().includes('exist') || msg.toLowerCase().includes('duplicate')) {
             throw new Error('User already exists');
         }

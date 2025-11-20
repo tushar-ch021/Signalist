@@ -11,10 +11,10 @@ import { getFormattedTodayDate } from "../utils";
 
 // Local types to satisfy the compiler when sharing user/news shapes in this file.
 // Adjust fields as needed to match real types elsewhere.
-type UserForNewsEmail = {
+type UserData = {
     email: string;
     name?: string;
-    [key: string]: any;
+    [key: string]: unknown;
 };
 
 type MarketNewsArticle = {
@@ -22,7 +22,7 @@ type MarketNewsArticle = {
     description?: string;
     url?: string;
     source?: string;
-    [key: string]: any;
+    [key: string]: unknown;
 };
 
 // Send a personalized welcome email when a user is created
@@ -116,8 +116,8 @@ export const sendDailyNewsSummary = inngest.createFunction(
             if (!users || users.length === 0) return { success: false, message: "No user found for news email" };
 
             const perUser = await step.run("fetch-user-news", async () => {
-                const results: Array<{ user: UserForNewsEmail; articles: MarketNewsArticle[] }> = [];
-                for (const user of users as UserForNewsEmail[]) {
+                const results: Array<{ user: UserData; articles: MarketNewsArticle[] }> = [];
+                for (const user of users as UserData[]) {
                     try {
                         const symbols = await getWatchlistSymbolsByEmail(user.email);
                         let articles = await getNews(symbols);
@@ -136,7 +136,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
             });
 
             // Summarize news per user via AI
-            const userNewsSummaries: { user: UserForNewsEmail; newsContent: string | null }[] = [];
+            const userNewsSummaries: { user: UserData; newsContent: string | null }[] = [];
 
             for (const { user, articles } of perUser) {
                 try {
