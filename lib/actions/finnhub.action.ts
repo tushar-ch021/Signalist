@@ -131,8 +131,10 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
       results = profiles
         .map(({ sym, profile }) => {
           const symbol = sym.toUpperCase();
-          const name: string | undefined = profile?.name || profile?.ticker || undefined;
-          const exchange: string | undefined = profile?.exchange || undefined;
+          const name: string | undefined = (typeof profile?.name === 'string' ? profile.name : undefined) ||
+            (typeof profile?.ticker === 'string' ? profile.ticker : undefined) ||
+            undefined;
+          const exchange: string | undefined = typeof profile?.exchange === 'string' ? profile.exchange : undefined;
           if (!name) return undefined;
           const r: FinnhubSearchResult = {
             symbol,
