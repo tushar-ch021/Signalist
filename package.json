@@ -2,14 +2,12 @@
   "name": "stock-app",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start -p $PORT",
-  "lint": "eslint"
-},
-
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p $PORT",
+    "lint": "eslint"
+  },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -40,6 +38,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/nodemailer": "^7.0.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
