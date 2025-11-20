@@ -1,4 +1,4 @@
-import { Control, FieldError, UseFormRegister, RegisterOptions } from 'react-hook-form';
+import { Control, FieldError, UseFormRegister, RegisterOptions, FieldValues, Path } from 'react-hook-form';
 
 declare global {
     type SignInFormData = {
@@ -24,14 +24,14 @@ declare global {
         required?: boolean;
     };
 
-    type FormInputProps = {
-        name: string;
+    type FormInputProps<T extends FieldValues> = {
+        name: Path<T>;
         label: string;
         placeholder: string;
         type?: string;
-        register: UseFormRegister<SignUpFormData | SignInFormData>;
+        register: UseFormRegister<T>;
         error?: FieldError;
-        validation?: RegisterOptions;
+        validation?: RegisterOptions<T, Path<T>>;
         disabled?: boolean;
         value?: string;
     };
