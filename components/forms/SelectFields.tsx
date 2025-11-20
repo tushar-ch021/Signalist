@@ -16,7 +16,7 @@ const SelectFields = ({name,label,placeholder,options,control,error,required}:Se
     <div className='space-y-2'>
         <Label htmlFor={name} className='form-label'>{label}</Label>
         <Controller
-          name={name}
+          name={name as keyof SignUpFormData}
           control={control}
           rules={{
             required:required?`Please select ${label.toLowerCase()}`:false
