@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect , useState } from "react"
 import { CommandDialog, CommandEmpty, CommandInput, CommandList } from "@/components/ui/command"
 import {Button} from "@/components/ui/button";
 import {Loader2,  TrendingUp, Star} from "lucide-react";
