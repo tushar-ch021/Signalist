@@ -67,16 +67,14 @@ const Userdropdown = ({user,initialStocks}:{user:User,initialStocks?:StockWithWa
        </DropdownMenuItem>
         {initialStocks && (
           <>
-            <DropdownMenuSeparator className=' sm:block md:hidden bg-gray-600' />
-            <nav className="sm:block md:hidden ">
+            <DropdownMenuSeparator className='md:hidden bg-gray-600' />
+            <nav className="md:hidden ">
               <Navitems initialStocks={initialStocks}/>
             </nav>
           </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
-
-        
   );
 };
 

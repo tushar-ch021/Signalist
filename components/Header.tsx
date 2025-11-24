@@ -15,7 +15,7 @@ const Header = async({user}:{user:User}) => {
             <nav className='hidden sm:block '>
                 <Navitems initialStocks={initialStocks} />
             </nav>
-            <Userdropdown user={user}/>
+            <Userdropdown user={user} initialStocks={initialStocks}/>
 
         </div>
     </header>
