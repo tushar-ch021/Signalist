@@ -1,9 +1,11 @@
-import {Inngest} from "inngest"
+import { Inngest } from "inngest";
 export const inngest = new Inngest({
-    id:'signalist',
-    ai:{
-        gemini:{
-            apiKey:process.env.GEMINI_API_KEY
+    id: 'signalist',
+    eventKey: process.env.INNGEST_EVENT_KEY,
+    ai: {
+        openai: {
+            apiKey: process.env.PERPLEXITY_API_KEY,
+            baseURL: "https://api.perplexity.ai"
         }
     }
 })

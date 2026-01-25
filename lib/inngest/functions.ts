@@ -38,19 +38,18 @@ export const sendSignUpEmail = inngest.createFunction(
             const prompt = PERSONALIZED_WELCOME_EMAIL_PROMPT.replace("{{userProfile}}", userProfile);
 
             const response = await step.ai.infer("generate-welcome-intro", {
-                model: step.ai.models.gemini({ model: "gemini-1.5-flash" }),
+                model: step.ai.models.openai({ model: "llama-3.1-sonar-large-128k-online" }),
                 body: {
-                    contents: [
+                    messages: [
                         {
                             role: "user",
-                            parts: [{ text: prompt }],
+                            content: prompt,
                         },
                     ],
                 },
             });
 
-            const part = response?.candidates?.[0]?.content?.parts?.[0];
-            const intro: string = (part && typeof part === "object" && "text" in part ? part.text : "") || "";
+            const intro = response.choices[0].message.content || "";
 
             await step.run("send-welcome-email", async () => {
                 try {
@@ -73,19 +72,18 @@ export const sendSignUpEmail = inngest.createFunction(
             const newsPrompt = NEWS_SUMMARY_EMAIL_PROMPT.replace("{{newsData}}", JSON.stringify(articles || [], null, 2));
 
             const newsResponse = await step.ai.infer("generate-initial-news-summary", {
-                model: step.ai.models.gemini({ model: "gemini-1.5-flash" }),
+                model: step.ai.models.openai({ model: "llama-3.1-sonar-large-128k-online" }),
                 body: {
-                    contents: [
+                    messages: [
                         {
                             role: "user",
-                            parts: [{ text: newsPrompt }],
+                            content: newsPrompt,
                         },
                     ],
                 },
             });
 
-            const newsPart = newsResponse?.candidates?.[0]?.content?.parts?.[0];
-            const newsContent = (newsPart && typeof newsPart === "object" && "text" in newsPart ? newsPart.text : "") || "No market news available.";
+            const newsContent = newsResponse.choices[0].message.content || "No market news available.";
 
             await step.run("send-initial-news-email", async () => {
                 try {
@@ -144,12 +142,18 @@ export const sendDailyNewsSummary = inngest.createFunction(
                 try {
                     const prompt = NEWS_SUMMARY_EMAIL_PROMPT.replace("{{newsData}}", JSON.stringify(articles || [], null, 2));
                     const response = await step.ai.infer(`summarize-news-${user.email}`, {
-                        model: step.ai.models.gemini({ model: "gemini-1.5-flash" }),
-                        body: { contents: [{ role: "user", parts: [{ text: prompt }] }] },
+                        model: step.ai.models.openai({ model: "llama-3.1-sonar-large-128k-online" }),
+                        body: {
+                            messages: [
+                                {
+                                    role: "user",
+                                    content: prompt,
+                                },
+                            ],
+                        },
                     });
 
-                    const part = response?.candidates?.[0]?.content?.parts?.[0];
-                    const newsContent = (part && typeof part === "object" && "text" in part ? part.text : null) || "No market news.";
+                    const newsContent = response.choices[0].message.content || "No market news.";
                     userNewsSummaries.push({ user, newsContent });
                 } catch (e) {
                     console.error("Failed to summarize news for:", user.email, e);
